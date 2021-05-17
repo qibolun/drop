@@ -65,7 +65,9 @@ class ServerConnection {
     }
 
     _endpoint() {
-        return 'ws://localhost:8082/server';
+        const protocol = location.protocol.startsWith('https') ? 'wss' : 'ws';
+        const url = protocol + '://' + location.host + '/server';
+        return url;
     }
 
     _isConnected() {
@@ -80,7 +82,7 @@ class ServerConnection {
         console.log('WS: server disconnected');
         Events.fire('notify-user', 'Connection lost. Retry in 5 seconds...');
         clearTimeout(this._reconnectTimer);
-        this._reconnectTimer = setTimeout(_ => this.connect(), 5000);
+        this._reconnectTimer = setTimeout(_ => this._connect(), 5000);
     }
 
 
