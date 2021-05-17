@@ -131,6 +131,7 @@ class Sever {
       peer.lastBeat = Date, now();
     }
     if (Date.now() - peer.lastBeat > 2 * timeout) {
+      this._leaveRoom(peer);
       return;
     }
     this._send(peer, { type: 'ping' });
